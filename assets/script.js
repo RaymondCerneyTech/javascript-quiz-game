@@ -16,8 +16,8 @@ var pageNameEl = document.querySelector("#page-name");
 var beginEl = document.querySelector("#begin");
 
 ////// End of elements /////////
-//////////////////////////////
-//////////////////////////////
+////////////////////////////////
+////////////////////////////////
 
 // Element data
 
@@ -36,7 +36,6 @@ var answerGiven = "Z";
 // Response to users answer
 var result = "What happened?";
 // Result of user question
-var result;
 
 ///// End of element data /////
 /////////////////////////////
@@ -116,9 +115,9 @@ function questionResults() {
 // Displays results of user answer, pauses timer, clears display event, adds next question event
 // to #begin button/"Next Question" button, changes begin button text to "Next Question"
 function displayResults() {
-	instructionsEl.innerText = questionResults();
-	beginEl.innerText = "Next Question";
 	pauseTimer();
+    instructionsEl.innerText = questionResults();
+	beginEl.innerText = "Next Question";
 	beginEl.removeEventListener("click", displayResults);
 	beginEl.addEventListener("click", nextQuestion);
 }
@@ -146,19 +145,37 @@ function mainToHighScorePage() {
 	highScorePage();
 }
 
-function highScorePage() {}
+function mainPage() {
+	timeRemainingEl.style.display = "inline-block";
+	hsEl.style.display = "inline-block";
+	hsEl.innerText = "High Scores";
+	questionEl.innerText = "Instructions";
+	instructionsEl.innerHTML = "Upon beginning the quiz the timer will begin counting down. <br/> Every question answered incorrectly will reduce the timer by 10 seconds. <br/> Answering the last question will initiate an initials entry prompt to save if it is a high score. <br/> The top 5 scores from your computer will be displayed on the high score page.";
+	pageNameEl.innerText = "JavaScript Quiz!";
+	beginEl.innerText = "Begin Quiz";
+	beginEl.style.display = "inline-block";
+	hsEl.addEventListener("click", highScorePage);
+	hsEl.removeEventListener("click", mainPage);
+}
+
+function highScorePage() {
+	timeRemainingEl.style.display = "none";
+	// timerEl;
+	// hsEl;
+	hsEl.innerText = "Main Page";
+	pageNameEl.innerText = "High Scores";
+	questionEl.innerText = "The top 5 high scores:";
+	instructionsEl.innerHTML = "<p> 1st: <span id='first-place'></span></p> <p> 2nd: <span id='second-place'></span></p><p> 3rd: <span id='third-place'></span></p><p> 4th: <span id='fourth-place'></span></p><p> 5th: <span id='fifth-place'></span></p>";
+	beginEl.style.display = "none";
+	hsEl.addEventListener("click", mainPage);
+	hsEl.removeEventListener("click", highScorePage);
+}
 
 function highScoreToMainPage() {
-	hsEl.innerText = "High Scores";
-
 	mainPage();
 }
 
-function mainPage() {}
-
 function scoreToHighScorePage() {
-	hsEl.innerText = "Main Page";
-
 	highScorePage();
 }
 
@@ -170,7 +187,6 @@ function scoreToHighScorePage() {
 */
 function nextQuestion() {
 	if (questionNumber === 0) {
-		totalScore = 0;
 		questionOne();
 	} else if (questionNumber === 1) {
 		questionTwo();
@@ -185,17 +201,16 @@ function nextQuestion() {
 	}
 	if (questionNumber < 5) {
 		startTimer();
-		questionNumber++;
-		questionEl.innerText = "Question #" + questionNumber.toString();
+        questionNumber++;
+        beginEl.innerText = "Check Answer";
+		questionEl.innerText = "Question # " + questionNumber.toString();
 		beginEl.addEventListener("click", displayResults);
 		beginEl.removeEventListener("click", nextQuestion);
-	} else {
-		questionEl.innerText = "Score:";
-	}
+	} 
 }
 
 function questionOne() {
-	hideHighScore();
+    hideHighScore();
 	instructionsEl.innerText = "I'm Q1";
 }
 
@@ -215,33 +230,27 @@ function questionFive() {
 function scorePage() {
 	questionEl.innerText = "Score:";
 	instructionsEl.innerText = "Your score is: " + totalScore.toString() + "! Great job!";
-	showHighScore();
-	if (isHighScore) {
+
+	if (isHighScore === true) {
+		instructionsEl.innerHTML += "<br/> You achieved a high score!";
 	}
+
 	beginEl.innerText = "Try again";
-	beginEl.addEventListener("click", tryAgain);
+    beginEl.addEventListener("click", tryAgain);    
+    beginEl.removeEventListener("click", displayResults);
 }
 
 //Checks if the score is a high score and stores it if it is
-function isHighScore() {}
+function isHighScore() { return false;}
 
 //Links
 function tryAgain() {
 	totalScore = 0;
     questionNumber = 0;
-    beginEl.addEventListener("click", nextQuestion);
+    timerTime = 120;
+	nextQuestion();
 	beginEl.removeEventListener("click", tryAgain);
 }
-
-function highScoreToMain() {}
-
-function scoreToHighScore() {}
-
-// Score to Question page
-/* 
-
-*/
-function scoreToQuestion() {}
 
 //  Out of time
 /*
@@ -251,24 +260,6 @@ function scoreToQuestion() {}
 function outOfTime() {
 	questionEl.innerText = "Out of time";
 	instructionsEl.innerText = "You are out of time. Start over?";
+	beginEl.removeEventListener("click", nextQuestion);
 	beginEl.addEventListener("click", tryAgain);
-}
-
-// Main pg to Question pg
-/* 
- 	Timer start, HSBtn removed, question text updated, instructions text updated, 
-    begin button text and event updated
-*/
-
-function mainToQ1() {
-	timerEl.innerText = 120;
-
-	//modifying main elements
-	titleEl.remove();
-	instructionsEl.remove();
-	beginEl.remove();
-	pageNameEl.innerHTML = "";
-	instructionsEl.innerText = "";
-
-	startTimer();
 }
