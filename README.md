@@ -1,2 +1,3 @@
 # javascript-quiz-game
- A javascript quiz game made in javascript
+
+A quiz game about JavaScript, made in JavaScript!

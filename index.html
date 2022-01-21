@@ -12,20 +12,28 @@
 	<body>
 		<header>
 			<div class="first-line">
-				<p>Time Remaining:<span id="timer"> 120 </span></p>
-				<button class="hs-button" type="button">View High Scores</button>
+				<p id="time-remaining">Time Remaining:<span id="timer"> 120 </span></p>
+				<button class="hs-button" type="button">High Scores</button>
 			</div>
-			<h1>JavaScript Quiz!</h1>
+			<h1 id="page-name">JavaScript Quiz!</h1>
 		</header>
 		<div class="card">
 			<div class="card-header">
-				<h2>Instructions:</h2>
+				<h2 class="question">Instructions:</h2>
 			</div>
-			<!-- Quiz Container -->
-			<textarea readonly class="quiz-content" id="password" aria-label="quiz-area"></textarea>
-			<!-- Button for initiating password creation -->
+			<!-- Quiz/Instruction/Scores container -->
+			<div class="quiz-container">
+				<p class="instructions">
+						Upon beginning the quiz the timer will begin counting down. 
+					<br/> Every question answered incorrectly will reduce the timer by 
+					10 seconds.
+					<br/> Answering the last question will initiate an initials entry prompt to save if it is a high score.
+					<br/> The top 5 scores from your computer will be displayed on the high score page.
+				</p>
+			</div>
+			<!-- Begin Quiz / Next Question button -->
 			<div class="card-footer">
-				<button id="generate" class="btn" type="button">Begin Quiz</button>
+				<button id="begin" class="begin" type="button">Begin Quiz</button>
 			</div>
 		</div>
 		<script src="assets/script.js"></script>
